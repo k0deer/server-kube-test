@@ -26,6 +26,7 @@ echo 'Successfully deleted '
 echo 'Apply changes app kubernetes ' 
 # apply yaml file
 
+kubectl apply -f "${PWD}/kube/db-mongoatlas-secret.yaml"
 kubectl apply -f "${PWD}/kube/clientes.yaml"
 
 echo 'Successfully deploy ' 
