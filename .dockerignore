@@ -1,0 +1,6 @@
+node_modules
+kube
+npm-debug*
+.nuxt
+build
+info.txt
