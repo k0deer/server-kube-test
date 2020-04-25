@@ -16,6 +16,7 @@ exports.index = (req, res, next) => {
         .sort(sort)
         .select(projection)
         .exec((err, result) => {
+            global.isOnline = true;
             if (result) {
                 res.json(result);
             } else {
@@ -25,6 +26,7 @@ exports.index = (req, res, next) => {
         })
 
     } catch (error) {
+        global.isOnline = false;
         res.status(500).send({
             message: err.message || "Ha ocurrido un error de red. intentelo nuevamente"
         });
@@ -39,6 +41,7 @@ exports.show = (req, res, next) => {
     const Id = req.params.id;
     Cliente.findById(Id)
     .then(cliente => {
+        global.isOnline = true;
         if(cliente){
             res.send(cliente);
         } else {
@@ -49,6 +52,7 @@ exports.show = (req, res, next) => {
         }
     })
     .catch(err => {
+        global.isOnline = false;
         logger.info("500 - Ha ocurrido un error de red - Acceso a servicio clientes : show - id" + Id);
         res.status(500).send({
             message: err.message || "Ha ocurrido un error de red. intentelo nuevamente"
@@ -85,9 +89,11 @@ exports.add = (req, res, next) => {
 
     cliente.save()
     .then(result => {
+        global.isOnline = true;
         res.status(200).send(result);
     })
     .catch(err => {
+        global.isOnline = false;
         logger.info("500 - Ha ocurrido un error de red - Acceso a servicio clientes : add ");
         res.status(500).send({
             message: err.message || "Ha ocurrido un error de red. intentelo nuevamente"
@@ -118,9 +124,11 @@ exports.edit = (req, res, next) => {
                     message: "El Cliente no ha sido encontrado"
                 });
             }
+            global.isOnline = true;
             res.send(cliente);
         })
         .catch(err => {
+            global.isOnline = false;
             logger.info("500 - Ha ocurrido un error de red - Acceso a servicio clientes : edit ");
             res.status(500).send({
                 message: err.message || "Ha ocurrido un error de red. intentelo nuevamente"
@@ -144,9 +152,11 @@ exports.delete= (req, res, next) => {
             return Cliente.deleteOne({ _id: Id });
 
         }).then(() => {
+            global.isOnline = true;
             res.status(200).json({ message: 'Success deleted!' });
         })
         .catch(err => {
+            global.isOnline = false;
             logger.info("500 - Ha ocurrido un error de red - Acceso a servicio clientes : delete ");
             res.status(500).send({
                 message: err.message || "Ha ocurrido un error de red. intentelo nuevamente"

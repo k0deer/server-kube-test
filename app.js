@@ -11,6 +11,9 @@ const db = require('./db');
 const app = express();
 const errorController = require('./controllers/error');
 
+// config health LIVENESS
+global.isOnline = true;
+
 const port = 5000;
 const vAPI = 'v1';
 const apiURL = '/api/' + vAPI;
@@ -39,13 +42,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health/readiness', (req, res) => {
-	res.status(200).send("Acceso health readiness");  
-	logger.info("Acceso a health -- readiness")
+	logger.info("Acceso a health -- readiness " + global.isOnline)
+	return global.isOnline ? res.status(200).send('ready') : res.sendStatus(500); 
 });
 
 app.get('/health/liveness', (req, res) => {
-	res.status(200).send("Acceso health liveness");
-	logger.info("Acceso a health -- liveness")
+	logger.info("Acceso a health -- liveness " + global.isOnline)
+	return global.isOnline ? res.status(200).send('live') : res.sendStatus(500); 
+});
+
+app.get('/health/kill', (req, res) => {
+	global.isOnline = false;
+	res.status(500).send("Health check is false");
+	logger.info("Acceso a health -- KILL API")
 });
 
 
