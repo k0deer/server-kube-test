@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service 
 metadata:
-  name: clientes
-  namespace: app
+  name: clientes-svc
+  namespace: default
   labels:
     app: clientes
     service: clientes
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment 
 metadata:
   name: clientes-v1
-  namespace: app
+  namespace: default
   labels:
     app: clientes
     version: v1
@@ -76,20 +76,3 @@ spec:
             initialDelaySeconds: 50
             timeoutSeconds: 10
             failureThreshold: 10
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: clientes
-  namespace: app
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - app-gateway
-  http:
-  - route:
-    - destination:
-        host: clientes
-        port:
-          number: 5000
