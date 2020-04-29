@@ -89,15 +89,15 @@ spec:
   - app-gateway
   http:
   - fault:
-      delay:
-        fixedDelay: 7s
+      abort:
+        httpStatus: 500
         percentage:
-          value: 100
+          value: 70
     route:
     - destination:
         host: clientes
         port:
-          number: 4000
+          number: 5000
   - route:
     - destination:
         host: clientes
