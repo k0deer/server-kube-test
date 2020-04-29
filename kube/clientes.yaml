@@ -97,7 +97,7 @@ spec:
     - destination:
         host: clientes
         port:
-          number: 5000
+          number: 4000
   - route:
     - destination:
         host: clientes
