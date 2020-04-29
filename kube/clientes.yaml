@@ -88,8 +88,27 @@ spec:
   gateways:
   - app-gateway
   http:
+  - fault:
+      delay:
+        fixedDelay: 7s
+        percentage:
+          value: 100
   - route:
     - destination:
         host: clientes
         port:
           number: 5000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: clientes
+  namespace: app
+spec:
+  host: clientes
+  trafficPolicy:
+    outlierDetection:
+      consecutiveErrors: 2
+      interval: 1m
+      baseEjectionTime: 3m
+      maxEjectionPercent: 100

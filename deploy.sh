@@ -18,15 +18,15 @@ echo 'Successfully pushed to Docker Container Registry ' $IMAGE
 echo 'Delete old deploy kubernetes ... ' 
 
 #delete old deploy
-kubectl delete deployment clientes-v1 
-kubectl delete svc clientes-svc
+kubectl delete deployment clientes-v1 -n app
+# kubectl delete svc clientes -n app
 
 echo 'Successfully deleted ' 
 
 echo 'Apply changes app kubernetes ' 
 # apply yaml file
 
-kubectl apply -f "${PWD}/kube/db-mongoatlas-secret.yaml"
+# kubectl apply -f "${PWD}/kube/db-mongoatlas-secret.yaml"
 kubectl apply -f "${PWD}/kube/clientes.yaml"
 
 echo 'Successfully deploy ' 
