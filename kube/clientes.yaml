@@ -92,7 +92,7 @@ spec:
       abort:
         httpStatus: 500
         percentage:
-          value: 70
+          value: 100
     route:
     - destination:
         host: clientes
