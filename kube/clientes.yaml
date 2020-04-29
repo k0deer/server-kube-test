@@ -93,6 +93,11 @@ spec:
         fixedDelay: 7s
         percentage:
           value: 100
+    route:
+    - destination:
+        host: clientes
+        port:
+          number: 5000
   - route:
     - destination:
         host: clientes
